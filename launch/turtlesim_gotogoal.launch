@@ -1,0 +1,15 @@
+<launch>
+    <node
+        pkg="turtlesim"
+        type="turtlesim_node"
+        name="turtlesim"
+    >
+    </node>
+    <node
+        pkg="turtlesim_move"
+        type="gotogoal"
+        name="gotogoal"
+        launch-prefix="xterm -e"
+    >
+    </node>
+</launch>
