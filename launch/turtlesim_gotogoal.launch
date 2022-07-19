@@ -12,4 +12,11 @@
         launch-prefix="xterm -e"
     >
     </node>
+    <node
+        pkg="turtlesim_move"
+        type="show_stats"
+        name="show_stats"
+        launch-prefix="xterm -e"
+    >
+    </node>
 </launch>

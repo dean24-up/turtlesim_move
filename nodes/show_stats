@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+#program that gets statistics on position and velocity from turtlesim and prints them
+#in a readable way
+
+#show_stats.py
+import rospy
+from geometry_msgs.msg import Twist
+from turtlesim.msg import Pose
+import sys
+import os
+
+ZERO_ZERO = '\033[0;0H'
+CLR_ZERO_ZERO = '\033[2J'
+
+class Stats:
+
+    def __init__(self):
+        rospy.init_node('show_stats', anonymous = True)
+        self.pose_subscriber = rospy.Subscriber('/turtle1/pose',Pose, self.store_pose)
+        self.vel_subscriber = rospy.Subscriber('/turtle1/cmd_vel',Twist, self.store_vel)
+        
+        self.pose = Pose()
+        self.vel = Twist()
+
+    
+    def store_pose(self, data):
+        self.pose = data
+        self.pose.x = round(self.pose.x, 4)
+        self.pose.y = round(self.pose.y, 4)
+        self.print_current()
+        
+    
+    def store_vel(self, data):
+        self.vel = data
+        self.vel.linear.x = round(self.vel.linear.x, 4)
+        self.vel.angular.z = round(self.vel.angular.z, 4)
+        self.print_current()
+        
+    def print_current(self):
+        
+        print(CLR_ZERO_ZERO)
+        print(ZERO_ZERO)
+
+        print("current x: {}".format(self.pose.x))
+        print("current y: {}".format(self.pose.y))
+        print("linear velocity: {}".format(self.vel.linear.x))
+        print("angular velocity: {}".format(self.vel.angular.z))
+        print("-----------------------------------------------");
+
+if __name__ == '__main__':
+    try:
+
+        while not rospy.is_shutdown():
+
+            x = Stats()
+            rospy.spin()
+
+    except rospy.ROSInterruptException:
+        pass
+
